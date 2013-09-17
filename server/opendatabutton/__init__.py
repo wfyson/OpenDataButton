@@ -49,7 +49,7 @@ def submit():
 		jsondata = {
 			"url": 		request.form['url'],
 			"title": 	request.form['title'],
-			"context": 	int(request.form['context']),
+			"context": 	request.form['context'],
 			"reason": 	request.form['reason'],
 			"lon": 		request.form['lon'],
 			"lat": 		request.form['lat']
