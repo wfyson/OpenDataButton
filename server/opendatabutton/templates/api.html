@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>Open Data Button Web Services</title>
+	<meta name="description" content="">
+	<meta name="author" content="@loleg">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="stylesheet" href="{{ url_for('static',
+filename='css/base.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static',
+filename='css/skeleton.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static',
+filename='css/layout.css') }}">
+	
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- 
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	-->
+</head>
+<body>
+	<div class="container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom">Open Data Button Server ~ v0.1</h1>
+			<hr />
+		</div>
+		<div class="twelve columns newsrows" id="main">
+			<p><a style="font-weight:bold; color:blue" href="#">Dokumentation</a></p>
+		
+		<ol>
+			<h3>API Services</h3>
+
+			<li style="border-right:10px solid #f99">
+			<p>Post an item:</p>
+			<form method="post" action="/submit">
+			<label for="url">URL:</label>
+				<input type="text" name="url"><br>
+			<label for="title">Title:</label> 
+				<input type="text" name="title"><br>
+			<label for="context">Context:</label>
+			<select name="context">
+				<option value="0">Personal</option>
+				<option value="1">Academic</option>
+				<option value="2">Government</option>
+				<option value="3">Commercial</option>
+			</select>
+			<br>
+			<label for="reason">Reason:</label>
+			<select name="reason">
+				<option value="0">Legal</option>
+				<option value="1">Technical</option>
+			</select>
+			<br>
+			<label for="lon">Location:</label>
+			lon: <input type="number" name="lon" size="4">
+			lat: <input type="number" name="lat" size="4">
+			<br>
+			<input type="submit" value="Go">
+			</form></li>
+
+		</ol>
+		</div>
+	</div><!-- container -->
+	
+	<style type="text/css">
+	#main form input { display:inline; margin:0; max-width:100px; }
+	h1 { font-size:1.4em; margin:0; }
+	h3 { font-size:1.6em; }
+	label { width:6em; display:inline-block;}
+	li select { display: inline; margin:0;}
+	</style>
+</body>
+</html>
