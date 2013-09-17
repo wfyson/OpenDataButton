@@ -11,10 +11,10 @@ javascript:(function() {
             if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
                 done = true;
 
-                var css = document.createElement('link');
-                css.rel = 'stylesheet';
-                css.type = 'text/css';
-                css.href = 'http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css';
+                var css = document.createElement("link");
+                css.rel = "stylesheet";
+                css.type = "text/css";
+                css.href = "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css";
                 document.getElementsByTagName("head")[0].appendChild(css);
 
                 var uiScript = document.createElement("script");
@@ -37,26 +37,26 @@ javascript:(function() {
         (window.myBookmarklet = function() {
 
             $("body").append("\
-         <div id='dialog-form' title='Open this data!'>\
+         <div id=\"dialog-form\" title=\"Open this data!\">\
          <form>\
          <fieldset>\
-         <label for='title'>Title</label>\
-         <input type='text' name='title' id='title' class='text ui-widget-content ui-corner-all'/>\
-         <label for='context'>Context</label>\
-         <select name='context' id='context'>\
-         <option value='Academic'>Academic</option>\
-         <option value='Commercial'>Commercial</option>\
-         <option value='Government'>Government</option>\
+         <label for=\"title\">Title</label>\
+         <input type=\"text\" name=\"title\" id=\"title\" class=\"text ui-widget-content ui-corner-all\"/>\
+         <label for=\"context\">Context</label>\
+         <select name=\"context\" id=\"context\">\
+         <option value=\"Academic\">Academic</option>\
+         <option value=\"Commercial\">Commercial</option>\
+         <option value=\"Government\">Government</option>\
          </select>\
-         <label for='reason'>Reason</label>\
-         <input type='radio' name='reason' value='legal'/> : Legal<br/>\
-         <input type='radio' name='reason' value='technical'/> : Technical<br/>\
+         <label for=\"reason\">Reason</label>\
+         <input type=\"radio\" name=\"reason\" value=\"legal\"/> : Legal<br/>\
+         <input type=\"radio\" name=\"reason\" value=\"technical\"/> : Technical<br/>\
          </fieldset>\
          </form>\
          </div>\
          ");
 
-            $('#title').val(document.title);
+            $("#title").val(document.title);
 
             $("#dialog-form").dialog({
                 autoOpen: false,
@@ -66,9 +66,9 @@ javascript:(function() {
                 buttons: {
                     "Submit": function() {
                         console.log(document.title);
-                        console.log($('#title').val());
-                        console.log($('#context').val());
-                        console.log($('input[name="reason"]:checked').val());
+                        console.log($("#title").val());
+                        console.log($("#context").val());
+                        console.log($("input[name=\"reason\"]:checked").val());
 
                     },
                     Cancel: function() {
