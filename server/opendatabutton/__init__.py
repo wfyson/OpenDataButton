@@ -32,7 +32,7 @@ def api():
 # Bookmarklet
 @app.route('/bookmarklet')
 def bookmarklet():
-    return open(os.path.dirname(__file__) + "/../../bookmarklet/bookmarklet.min.js").read()
+    return open(os.path.dirname(__file__) + "/../../bookmarklet/bookmarklet.js").read()
 
 # Favicon
 @app.route('/favicon.ico')

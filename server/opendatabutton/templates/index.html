@@ -3,8 +3,6 @@
   <head>
     <title>Open Data Button</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -24,12 +22,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Open Data Button</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
+            <li class="active"><a href="#">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <!--
             <li class="dropdown">
@@ -64,12 +61,10 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Open Data Button</h1>
+        <h1>About</h1>
         <p>This OKCon Law Mining Hackathon project aims to illuminate legal and technical restrictions on data, and create grounds for simple community action for changes to terms of use. The Open This Data! button is an easy, social way to share the fact that you are prevented from accessing data in some way.</p>
         <p>To get started, drag this to your bookmark bar:</p>
-        <p><a class="btn btn-primary btn-lg" href="javascript:document.getElementsByTagName('body')[0].appendChild(document.createElement('script')).setAttribute('src','{{ url_for('bookmarklet', _external=True) }}');
-
-">Open This Data!</a></p>
+        <p><a class="btn btn-primary btn-lg" href="javascript:if(!document.getElementById('odb-bkmlt')){document.getElementsByTagName('body')[0].appendChild(document.createElement('script')).setAttribute('id','odb-bkmlt');document.getElementById('odb-bkmlt').setAttribute('src','{{ url_for('bookmarklet', _external=True) }}');}">Open This Data!</a></p>
       </div>
     </div>
 
@@ -89,6 +84,7 @@
        </div>
       </div>
 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   </body>
 </html>
