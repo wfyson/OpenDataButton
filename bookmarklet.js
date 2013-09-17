@@ -65,10 +65,22 @@ javascript:(function() {
                 modal: true,
                 buttons: {
                     "Submit": function() {
-                        console.log(document.title);
-                        console.log($("#title").val());
-                        console.log($("#context").val());
-                        console.log($("input[name=\"reason\"]:checked").val());
+                        if (navigator.geolocation)
+                        {
+                            navigator.geolocation.getCurrentPosition(function(position){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "~/pythoncode.py",
+                                    data: {title: $('#title').val(),
+                                        context: $('#context').val(),
+                                        reason: $('input[name="reason"]:checked').val(),
+                                        lat: position.coords.latitude,
+                                        long: position.coords.longitude}
+                                }).done(function(o) {
+
+                                });
+                            });
+                        }
 
                     },
                     Cancel: function() {
@@ -82,5 +94,13 @@ javascript:(function() {
             $("#dialog-form").dialog("open");
 
         })();
+    }
+    
+    function getLocation()
+    {
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
     }
 })();
