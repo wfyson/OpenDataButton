@@ -3,6 +3,8 @@ ODB Server
 
 A RESTful API for the Open Data Button.
 
+Written in the Flask microframework for Python.
+
 ## Developer install
 
 1. Install virtualenv and create one in this folder $ virtualenv .

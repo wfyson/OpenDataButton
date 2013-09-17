@@ -1,20 +1,22 @@
 import os, uuid
 from flask import Flask, render_template, send_from_directory, request, json, jsonify
 
-if 'REDISTOGO_URL' in os.environ:
+# Database configuration
+if 'REDISTOGO_URL' in os.environ: # cloud
 	from werkzeug.contrib.cache import RedisCache
 	REDISTOGO_PASS = os.environ['REDISTOGO_PASS']
 	cache = RedisCache(host='cod.redistogo.com', port=9747, password=REDISTOGO_PASS, default_timeout=300, key_prefix=None)
 	cache_type = "redistogo"
-elif 'REDISLOCAL' in os.environ:
+elif 'REDISLOCAL' in os.environ: # local
 	from werkzeug.contrib.cache import RedisCache
-	cache = RedisCache(host='localhost', port=16379, key_prefix='kh_')
+	cache = RedisCache(host='localhost', port=16379, key_prefix='odb_')
 	cache_type = "redisunix"
-else:
+else: # instant
 	from werkzeug.contrib.cache import SimpleCache
 	cache = SimpleCache()
 	cache_type = "local"
 
+# Define Flask app
 app = Flask(__name__)
 
 # Home page
@@ -22,10 +24,15 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-# Home page
+# API test page
 @app.route('/api')
 def api():
     return render_template('api.html')
+
+# Bookmarklet
+@app.route('/bookmarklet')
+def bookmarklet():
+    return open(os.path.dirname(__file__) + "/../../bookmarklet/bookmarklet.min.js").read()
 
 # Favicon
 @app.route('/favicon.ico')
