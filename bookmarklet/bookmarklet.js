@@ -55,14 +55,22 @@ function initMyBookmarklet() {
         dialog = $('#odb-bkmlt-dialog-form').fadeIn(); 
         $('input[name=\"title\"]', dialog).val(document.title);
 
+        var lat = 0, lon = 0;        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position){
+                lat = position.coords.latitude;
+                lon = position.coords.longitude;
+            });
+        }
+
         $('button.submit', dialog).click(function() {
             var formdata = {
                     "url":      location.href,
                     "title":    $("input[name=\"title\"]", dialog).val(),
                     "context":  $("select[name=\"context\"]", dialog).val(),
                     "reason":   $("input[name=\"reason\"]:checked", dialog).val(),
-                    "lon":      0, // TODO: HTML5 Geolocation
-                    "lat":      0
+                    "lat":      lat,
+                    "lon":      lon
                 };
             //console.log(formdata); return false;
             $.post(
