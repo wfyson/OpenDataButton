@@ -79,7 +79,7 @@ function initMyBookmarklet() {
                 };
             //console.log(formdata); return false;
             $.post(
-                'http://localhost:5000/submit', 
+                'http://datalets.ch:7000/submit', 
                 formdata,
                 function(d) { 
                     $('form', dialog).html('Thanks!<br><br><tt>' + d + '</tt>');
