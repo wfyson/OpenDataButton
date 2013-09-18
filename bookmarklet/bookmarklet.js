@@ -40,7 +40,10 @@ function initMyBookmarklet() {
      </select><br/>\
      <label for=\"reason\">Reason</label>\
          <input type=\"checkbox\" checked name=\"reason\" value=\"legal\">Legal</button>\
-         <input type=\"checkbox\" name=\"reason\" value=\"technical\">Technical</button>\
+         <input type=\"checkbox\" name=\"reason\" value=\"technical\">Technical</button><br/>\
+     <label for=\"lat\">Location</label>\
+         lat <input type=\"text\" name=\"lat\" value=\"\" size=\"4\"/>\
+         lon <input type=\"text\" name=\"lon\" value=\"\" size=\"4\"/>\
      </fieldset>\
      <label></label><button class=\"submit\">Submit</button>\
      </form>\
@@ -49,6 +52,7 @@ function initMyBookmarklet() {
      <style type=\"text/css\">\
      #odb-bkmlt-dialog-form { width:30em; z-index:9999; font-size:16px; position:fixed; top:0px; left:5em; padding:2em; border:1px solid black; box-shadow:5px 5px 10px #888; background: white; }\
      #odb-bkmlt-dialog-form h5 { font-size:24px; } #odb-bkmlt-dialog-form label { width:6em; display:inline-block; }\
+     #odb-bkmlt-dialog-form button.submit { background: #cfc; margin: 1em 0 0 6em; float: left; }\
      </style>\
      ");
         
@@ -58,8 +62,9 @@ function initMyBookmarklet() {
         var lat = 0, lon = 0;        
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position){
-                lat = position.coords.latitude;
-                lon = position.coords.longitude;
+                $("input[name=\"lat\"]", dialog).attr('value', position.coords.latitude);
+                $("input[name=\"lon\"]", dialog).attr('value', position.coords.longitude);
+                //console.log('Geolocation:', position.coords);
             });
         }
 
@@ -69,8 +74,8 @@ function initMyBookmarklet() {
                     "title":    $("input[name=\"title\"]", dialog).val(),
                     "context":  $("select[name=\"context\"]", dialog).val(),
                     "reason":   $("input[name=\"reason\"]:checked", dialog).val(),
-                    "lat":      lat,
-                    "lon":      lon
+                    "lat":      $("input[name=\"lat\"]", dialog).val(),
+                    "lon":      $("input[name=\"lon\"]", dialog).val()
                 };
             //console.log(formdata); return false;
             $.post(
