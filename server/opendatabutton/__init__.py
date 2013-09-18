@@ -1,7 +1,14 @@
-import os, uuid
-from flask import Flask, render_template, send_from_directory, request, json, jsonify
+import os, uuid, sqlite3, time
+from datetime import datetime
+from flask import Flask, render_template, send_from_directory, request, json, jsonify, g
 
-# Database configuration
+# Define Flask app
+app = Flask(__name__)
+DEBUG = True
+DATABASE = '/tmp/opendatabutton.db'
+SERVER_PORT = 7000
+
+# Cache configuration
 if 'REDISTOGO_URL' in os.environ: # cloud
 	from werkzeug.contrib.cache import RedisCache
 	REDISTOGO_PASS = os.environ['REDISTOGO_PASS']
@@ -16,13 +23,19 @@ else: # instant
 	cache = SimpleCache()
 	cache_type = "local"
 
-# Define Flask app
-app = Flask(__name__)
-
 # Home page
 @app.route('/')
 def index():
-    return render_template('index.html')
+	cur = g.db.execute('select id,time,title,url,context,reason from entries order by id desc')
+	entries = [dict(
+			id=row[0],
+			time=row[1],
+			title=row[2], 
+			url=row[3],
+			context=row[4],
+			reason=row[5]
+		) for row in cur.fetchall()]
+	return render_template('index.html', entries=entries)
 
 # API test page
 @app.route('/api')
@@ -72,8 +85,24 @@ def submit():
 		return json.dumps({ 'ErrorCode': 401, 'Message': "Parameters missing" })
 
 	# Save the submission
-	hash_key = str(uuid.uuid1())
+	jsonform = [
+		jsondata['url'],
+		jsondata['title'],
+		jsondata['context'],
+		jsondata['reason'],
+		jsondata['lon'],
+		jsondata['lat'],
+		int(time.time())
+	]
 
+	# Push to database
+	g.db.execute('insert into entries (url, title, context, reason, lon, lat, time) values (?, ?, ?, ?, ?, ?, ?)', jsonform)
+	g.db.commit()
+	
+	return json.dumps(jsondata)
+
+def asdflasdfkj():
+	hash_key = str(uuid.uuid1())
 	rv = cache.get(jsondata['url'])
 	if rv is not None:
 		rv.append(hash_key)
@@ -84,7 +113,45 @@ def submit():
 	jsondata['rv'] = rv
 	return json.dumps(jsondata)
 
+def connect_db():
+    return sqlite3.connect(DATABASE)
+
+@app.before_request
+def before_request():
+    g.db = connect_db()
+
+@app.teardown_request
+def teardown_request(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+@app.template_filter()
+def timesince(dt, default="just now"):
+	"""
+	Returns string representing "time since" e.g.
+	3 days ago, 5 hours ago etc.
+	"""
+	if not dt:
+		return "?"
+	now = datetime.utcnow()
+	dt = datetime.utcfromtimestamp(int(dt))
+	diff = now - dt
+	periods = (
+		(diff.days / 365, "year", "years"),
+		(diff.days / 30, "month", "months"),
+		(diff.days / 7, "week", "weeks"),
+		(diff.days, "day", "days"),
+		(diff.seconds / 3600, "hour", "hours"),
+		(diff.seconds / 60, "minute", "minutes"),
+		(diff.seconds, "second", "seconds"),
+	)
+	for period, singular, plural in periods:
+		if period:
+			return "%d %s ago" % (period, singular if period == 1 else plural)
+	return default
+
 # Standard app construct
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', SERVER_PORT))
     app.run(host='0.0.0.0', port=port)
