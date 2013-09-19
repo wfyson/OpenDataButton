@@ -66,7 +66,7 @@ def vote():
     sqlData = [votes, id]
     g.db.execute('UPDATE entries SET votes = ? WHERE id = ?', sqlData)
     g.db.commit()
-    return redirect('/')
+    return json.dumps({ 'id': id, 'votes': votes })
 
 # Submission API
 @app.route('/submit', methods=['GET', 'POST'])

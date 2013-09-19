@@ -95,8 +95,8 @@
                   {{ entry.context }}
                 </span> 
                 usage.</p>
-                <span class="entry-votes">&#9733; {{ entry.votes }}</span>
-                <a class="btn btn-success" href="#" data-entry-id="{{ entry.id }}">
+                <span class="entry-votes">&#9733; <b>{{ entry.votes }}</b></span>
+                <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">
                   Vote!
                 </a>
             </li>
@@ -106,24 +106,30 @@
           </ul>
        </div>
       </div>
-
-      <script type="text/javascript">
-        $('ul.entries li a').click(function() {
+   
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $('ul.entries li a').click(function(ev) {
+            var self = this;
             var formdata = {
-                "id": $(this).attr('data-entry-id');
+                "id": $(this).attr('data-entry-id')
             };
             $.post(
                 'http://localhost:7000/vote', 
                 formdata,
                 function(d) { 
-                    $('form', dialog).html('Thanks!<br><br><tt>' + d + '</tt>');
+                  var votes = JSON.parse(d).votes;
+                  var v = $(self).html('Thanks!')
+                    .removeClass('btn-success')
+                    .addClass('btn-success disabled')
+                      .parent().find('.entry-votes b');
+                  v.html(votes);
                 }
             );
-          }
+            ev.preventDefault();
+            return false;
+          });
       </script>
-                 
-    
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   </body>
 </html>
