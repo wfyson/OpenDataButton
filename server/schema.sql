@@ -7,5 +7,6 @@ create table entries (
   context text not null,
   reason text not null,
   lon real,
-  lat real
+  lat real,
+  votes int
 );

@@ -92,6 +92,9 @@
               <span class="entry-{{ entry.reason }}">
             {{ entry.reason }} reasons</span> in the context of
               <span class="entry-{{ entry.context }}">{{ entry.context }}</span> usage.</p>
+            
+              <a class="btn btn-primary" href="#" onclick="vote('{{ entry.id }}');">Vote!</a>
+ 
             </li>
           {% else %}
             <li><em>Unbelievable.  No entries yet!</em></li>
@@ -100,6 +103,22 @@
        </div>
       </div>
 
+      <script type="text/javascript">
+          function vote(id){
+            var formdata = {
+                    "id": id
+                };
+            $.post(
+                'http://localhost:7000/vote', 
+                formdata,
+                function(d) { 
+                    $('form', dialog).html('Thanks!<br><br><tt>' + d + '</tt>');
+                }
+            );
+          }
+      </script>
+                 
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   </body>

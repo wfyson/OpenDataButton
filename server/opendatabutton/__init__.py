@@ -53,6 +53,20 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+# Vote API
+@app.route('/vote', methods=['POST'])
+def vote():
+    id = request.form['id']
+
+    #get current number of votes
+    g.db.execute('SELECT votes FROM entries WHERE id = ?', id)
+    votes = g.db.fetchone()[0]
+    #increment and update
+    votes++
+    sqlData = [votes, id]
+    g.db.execute('UPDATE entries SET votes = ? WHERE id = ?', sqlData)
+    g.db.commit()
+
 # Submission API
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
@@ -92,11 +106,12 @@ def submit():
 		jsondata['reason'],
 		jsondata['lon'],
 		jsondata['lat'],
-		int(time.time())
+		int(time.time()),
+                int(1)
 	]
 
 	# Push to database
-	g.db.execute('insert into entries (url, title, context, reason, lon, lat, time) values (?, ?, ?, ?, ?, ?, ?)', jsonform)
+	g.db.execute('insert into entries (url, title, context, reason, lon, lat, time, votes) values (?, ?, ?, ?, ?, ?, ?, ?)', jsonform)
 	g.db.commit()
 	
 	return json.dumps(jsondata)
