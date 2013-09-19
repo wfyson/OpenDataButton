@@ -1,6 +1,6 @@
 import os, uuid, sqlite3, time
 from datetime import datetime
-from flask import Flask, render_template, send_from_directory, request, json, jsonify, g
+from flask import Flask, render_template, redirect, send_from_directory, request, json, jsonify, g
 
 # Define Flask app
 app = Flask(__name__)
@@ -26,14 +26,15 @@ else: # instant
 # Home page
 @app.route('/')
 def index():
-	cur = g.db.execute('select id,time,title,url,context,reason from entries order by id desc')
+	cur = g.db.execute('select id,time,title,url,context,reason,votes from entries order by id desc')
 	entries = [dict(
 			id=row[0],
 			time=row[1],
 			title=row[2], 
 			url=row[3],
 			context=row[4],
-			reason=row[5]
+			reason=row[5],
+			votes=row[6]
 		) for row in cur.fetchall()]
 	return render_template('index.html', entries=entries)
 
@@ -57,15 +58,15 @@ def favicon():
 @app.route('/vote', methods=['POST'])
 def vote():
     id = request.form['id']
-
     #get current number of votes
-    g.db.execute('SELECT votes FROM entries WHERE id = ?', id)
-    votes = g.db.fetchone()[0]
+    cur = g.db.execute('SELECT votes FROM entries WHERE id = ?', id)
+    votes = cur.fetchone()[0]
     #increment and update
-    votes++
+    votes = votes + 1
     sqlData = [votes, id]
     g.db.execute('UPDATE entries SET votes = ? WHERE id = ?', sqlData)
     g.db.commit()
+    return redirect('/')
 
 # Submission API
 @app.route('/submit', methods=['GET', 'POST'])
@@ -99,6 +100,7 @@ def submit():
 		return json.dumps({ 'ErrorCode': 401, 'Message': "Parameters missing" })
 
 	# Save the submission
+	timestamp = int(time.time())
 	jsonform = [
 		jsondata['url'],
 		jsondata['title'],
@@ -106,26 +108,17 @@ def submit():
 		jsondata['reason'],
 		jsondata['lon'],
 		jsondata['lat'],
-		int(time.time()),
-                int(1)
+		timestamp,
+        int(1) # vote
 	]
 
 	# Push to database
 	g.db.execute('insert into entries (url, title, context, reason, lon, lat, time, votes) values (?, ?, ?, ?, ?, ?, ?, ?)', jsonform)
 	g.db.commit()
-	
-	return json.dumps(jsondata)
 
-def asdflasdfkj():
-	hash_key = str(uuid.uuid1())
-	rv = cache.get(jsondata['url'])
-	if rv is not None:
-		rv.append(hash_key)
-	else:
-		rv = [hash_key]
-	cache.set(jsondata['url'], rv, timeout=999999999999999999)
-	cache.set(hash_key, jsondata, timeout=999999999999999999)
-	jsondata['rv'] = rv
+	# Get the last entry
+	cur = g.db.execute('SELECT id FROM entries ORDER BY id DESC LIMIT 1')
+	jsondata['id'] = cur.fetchone()[0]
 	return json.dumps(jsondata)
 
 def connect_db():

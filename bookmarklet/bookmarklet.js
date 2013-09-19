@@ -1,6 +1,7 @@
 javascript:(function() {
 
 var v = "1.10.2";
+var BUTTON_SERVER = 'http://localhost:7000';
 
 if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
     var done = false
@@ -79,7 +80,7 @@ function initMyBookmarklet() {
                 };
             //console.log(formdata); return false;
             $.post(
-                'http://localhost:7000/submit', 
+                BUTTON_SERVER + '/submit', 
                 formdata,
                 function(d) { 
                     $('form', dialog).html('Thanks!<br><br><tt>' + d + '</tt>');

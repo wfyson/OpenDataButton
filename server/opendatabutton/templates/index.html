@@ -81,20 +81,24 @@
         </div>
         <div class="col-lg-8">
           <h2>Latest posts</h2>
-          <ul class=entries>
+          <ul class="entries">
           {% for entry in entries %}
             <li>
-            <b>{{ entry.title|safe }}</b>
-            <i>{{ entry.time|timesince }}</i>
-            <p><a href="{{ entry.url|safe }}" target="_blank" class="entry-title">
-              {{ entry.url|safe }}</a></p>
-            <p>This data is not open enough for 
-              <span class="entry-{{ entry.reason }}">
-            {{ entry.reason }} reasons</span> in the context of
-              <span class="entry-{{ entry.context }}">{{ entry.context }}</span> usage.</p>
-            
-              <a class="btn btn-primary" href="#" onclick="vote('{{ entry.id }}');">Vote!</a>
- 
+              <b>{{ entry.title|safe }}</b>
+              <i>{{ entry.time|timesince }}</i>
+              <p><a href="{{ entry.url|safe }}" target="_blank" class="entry-title">
+                {{ entry.url|safe }}</a></p>
+              <p>This data is not open enough for 
+                <span class="entry-{{ entry.reason }}">
+              {{ entry.reason }} reasons</span> in the context of
+                <span class="entry-{{ entry.context }}">
+                  {{ entry.context }}
+                </span> 
+                usage.</p>
+                <span class="entry-votes">&#9733; {{ entry.votes }}</span>
+                <a class="btn btn-success" href="#" data-entry-id="{{ entry.id }}">
+                  Vote!
+                </a>
             </li>
           {% else %}
             <li><em>Unbelievable.  No entries yet!</em></li>
@@ -104,10 +108,10 @@
       </div>
 
       <script type="text/javascript">
-          function vote(id){
+        $('ul.entries li a').click(function() {
             var formdata = {
-                    "id": id
-                };
+                "id": $(this).attr('data-entry-id');
+            };
             $.post(
                 'http://localhost:7000/vote', 
                 formdata,
