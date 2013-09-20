@@ -14,10 +14,11 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
     <style type="text/css">
       span.entry-votes { float:right; width:10em; display:inline-block; }
+      .entries li { border-bottom: 1px solid #ccc; }
     </style>
   </head>
   <body>
-     <div class="navbar navbar-inverse navbar-fixed-top">
+     <div class="navbar navbar-inverse navbar-fixed-top hidden">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,7 +26,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Open Data Button</a>
+          <a class="navbar-brand" href="#"></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -64,10 +65,10 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <img src="{{ url_for('static', filename='open-data-button.png') }}" align="left">
-        <h1>About</h1>
-        <p>This OKCon Law Mining Hackathon project aims to illuminate legal and technical restrictions on data, and create grounds for simple community action for changes to terms of use. The Open This Data! button is an easy, social way to share the fact that you are prevented from accessing data in some way.</p>
-        <p>To get started, drag this button to your bookmark bar:</p>
+        <img src="{{ url_for('static', filename='open-data-button.png') }}" align="left" style="margin-top: 1em; margin-right: 1em;">
+        <h1>Open Data Button</h1>
+        <p>This <a href="http://make.opendata.ch/legal" target="_blank">Law Mining Hackathon</a> project started at <a href="http://okcon.org" target="_blank">OKCon 2013</a> aims to illuminate legal and technical restrictions on data, and create grounds for simple community action for changes to terms of use. The button is an easy, social way to share the fact that you are prevented from accessing data in some way.</p>
+        <p>To get started, simply drag this button to your bookmark bar:</p>
         <p style="text-align:center"><a class="btn btn-primary btn-lg" href="javascript:document.getElementsByTagName('body')[0].appendChild(document.createElement('script')).setAttribute('id','odb-bkmlt');document.getElementById('odb-bkmlt').setAttribute('src','{{ url_for('bookmarklet', _external=True) }}');">Open This Data!</a></p>
       </div>
     </div>
@@ -75,19 +76,32 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-4" style="background:lightyellow">
           <h3>Goals</h3>
           <ol>
           <li>Develop crowdsourcing of not-so-open data </li>
           <li>Make an easy way of sharing restrictions</li>
           <li>Visualize the “not-so-open-data map”</li>
           </ol>
+          <a href="http://make.opendata.ch/wiki/project:legal:opendatabutton" target="_blank">
+            <img src="http://opendata.utou.ch/alps/res/opendata_logo2.png" style="float:left;height:1.2em;margin:0 .5em 0 1.1em"> 
+          </a>
+          Visit the 
+          <a href="http://make.opendata.ch/wiki/project:legal:opendatabutton" target="_blank">
+            project wiki 
+          </a>
+          for more information.
+          <br clear="all">
+          <a href="https://github.com/wfyson/OpenDataButton" target="_blank">
+            <img src="http://opendata.utou.ch/alps/res/github-256-black.png" style="float:left;height:1.2em;margin:0 .5em 0 1.1em"> Source code
+          </a> on GitHub.
         </div>
         <div class="col-lg-8">
           <h2>Latest posts</h2>
           <ul class="entries">
           {% for entry in entries %}
             <li>
+              <a name="{{ entry.id }}"></a>
               <span class="entry-votes">
                 &#9733; <b>{{ entry.votes }}</b>
                 <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">

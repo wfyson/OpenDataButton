@@ -27,8 +27,9 @@ function initMyBookmarklet() {
         }
 
         $("body").append("\
-     <div id=\"odb-bkmlt-dialog-form\" style=\"display:none\">\
-     <h5>Open this data!</h5>\
+     <link rel=\"stylesheet\" type=\"text/css\" href=\"http://yui.yahooapis.com/3.12.0/build/cssreset-context/cssreset-context-min.css\">\
+     <div id=\"odb-bkmlt-dialog-form\" class=\"yui3-cssreset\" style=\"display:none\">\
+     <h5>Open this data!</h5><br>\
      <form><fieldset>\
      <label for=\"title\">Title</label>\
         <input type=\"text\" name=\"title\"/><br/>\
@@ -83,7 +84,12 @@ function initMyBookmarklet() {
                 BUTTON_SERVER + '/submit', 
                 formdata,
                 function(d) { 
-                    $('form', dialog).html('Thanks!<br><br><tt>' + d + '</tt>');
+                    var data = $.parseJSON(d);
+                    $('form', dialog).html(
+                        'Thanks.<br><br>You can now <a href="' 
+                        + BUTTON_SERVER + '/#' + data.id 
+                        + '">see your post</a> here.<!--' 
+                        + d + '-->');
                 }
             );
             return false;
