@@ -1,7 +1,7 @@
 javascript:(function() {
 
 var v = "1.10.2";
-var BUTTON_SERVER = 'http://localhost:7000';
+var BUTTON_SERVER = 'http://button.datalets.ch';
 
 if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
     var done = false

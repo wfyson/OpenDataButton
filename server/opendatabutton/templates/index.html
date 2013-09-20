@@ -12,6 +12,9 @@
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <style type="text/css">
+      span.entry-votes { float:right; width:10em; display:inline-block; }
+    </style>
   </head>
   <body>
      <div class="navbar navbar-inverse navbar-fixed-top">
@@ -85,6 +88,11 @@
           <ul class="entries">
           {% for entry in entries %}
             <li>
+              <span class="entry-votes">
+                &#9733; <b>{{ entry.votes }}</b>
+                <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">
+                  Vote!
+                </a></span>
               <b>{{ entry.title|safe }}</b>
               <i>{{ entry.time|timesince }}</i>
               <p><a href="{{ entry.url|safe }}" target="_blank" class="entry-title">
@@ -96,10 +104,6 @@
                   {{ entry.context }}
                 </span> 
                 usage.</p>
-                <span class="entry-votes">&#9733; <b>{{ entry.votes }}</b></span>
-                <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">
-                  Vote!
-                </a>
             </li>
           {% else %}
             <li><em>Unbelievable.  No entries yet!</em></li>
@@ -117,7 +121,7 @@
                 "id": $(this).attr('data-entry-id')
             };
             $.post(
-                'http://localhost:7000/vote', 
+                '{{ url_for('vote') }}', 
                 formdata,
                 function(d) { 
                   var votes = JSON.parse(d).votes;
