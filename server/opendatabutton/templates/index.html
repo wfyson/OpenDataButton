@@ -106,6 +106,9 @@
                 &#9733; <b>{{ entry.votes }}</b>
                 <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">
                   Vote!
+                </a>
+                <a class="btn disabled" href="#" title="Coming soon!" data-entry-id="{{ entry.id }}">
+                  Discuss
                 </a></span>
               <b>{{ entry.title|safe }}</b>
               <i>{{ entry.time|timesince }}</i>
