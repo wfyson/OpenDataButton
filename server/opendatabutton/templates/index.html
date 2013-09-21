@@ -67,8 +67,8 @@
       <div class="container">
         <img src="{{ url_for('static', filename='open-data-button.png') }}" align="left" style="margin-top: 1em; margin-right: 1em;">
         <h1>Open Data Button</h1>
-        <p>This <a href="http://make.opendata.ch/legal" target="_blank">Law Mining Hackathon</a> project started at <a href="http://okcon.org" target="_blank">OKCon 2013</a> aims to illuminate legal and technical restrictions on data, and create grounds for simple community action for changes to terms of use. The button is an easy, social way to share the fact that you are prevented from accessing data in some way.</p>
-        <p>To get started, simply drag this button to your bookmark bar:</p>
+        <p>This <a href="http://make.opendata.ch/legal" target="_blank">Law Mining Hackathon</a> project started at <a href="http://okcon.org" target="_blank">OKCon 2013</a> aims to help lift legal and technical restrictions on data, and get rapid community response to changes of terms of use. The Open Data Button is an easy, social way to share the fact that you are prevented from accessing data in some way.</p>
+        <p>To get started, simply drag this button up to your browser's bookmark bar:</p>
         <p style="text-align:center"><a class="btn btn-primary btn-lg" href="javascript:document.getElementsByTagName('body')[0].appendChild(document.createElement('script')).setAttribute('id','odb-bkmlt');document.getElementById('odb-bkmlt').setAttribute('src','{{ url_for('bookmarklet', _external=True) }}');">Open This Data!</a></p>
       </div>
     </div>
