@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Open Data Button</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+    <style type="text/css">
+      span.entry-votes { float:right; width:10em; display:inline-block; }
+      .entries li { border-bottom: 1px solid #ccc; }
+    </style>
+  </head>
+  <body>
+     <div class="navbar navbar-inverse navbar-fixed-top hidden">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <!--
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+            -->
+          </ul>
+          <!--
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+          -->
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <img src="{{ url_for('static', filename='open-data-button.png') }}" align="left" style="margin-top: 1em; margin-right: 1em;">
+        <h1>Open Data Button</h1>
+        <p>This <a href="http://make.opendata.ch/legal" target="_blank">Law Mining Hackathon</a> project started at <a href="http://okcon.org" target="_blank">OKCon 2013</a> aims to help lift legal and technical restrictions on data, and get rapid community response to changes of terms of use. The Open Data Button is an easy, social way to share the fact that you are prevented from accessing data in some way.</p>
+        <p>To get started, simply drag this button up to your browser's bookmark bar:</p>
+        <p style="text-align:center"><a class="btn btn-primary btn-lg" href="javascript:document.getElementsByTagName('body')[0].appendChild(document.createElement('script')).setAttribute('id','odb-bkmlt');document.getElementById('odb-bkmlt').setAttribute('src','{{ url_for('bookmarklet', _external=True) }}');">Open This Data!</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4" style="background:lightyellow">
+          <h3>Goals</h3>
+          <ol>
+          <li>Develop crowdsourcing of not-so-open data </li>
+          <li>Make an easy way of sharing restrictions</li>
+          <li>Visualize the “not-so-open-data map”</li>
+          </ol>
+          <a href="http://make.opendata.ch/wiki/project:legal:opendatabutton" target="_blank">
+            <img src="http://opendata.utou.ch/alps/res/opendata_logo2.png" style="float:left;height:1.2em;margin:0 .5em 0 1.1em"> 
+          </a>
+          Visit the 
+          <a href="http://make.opendata.ch/wiki/project:legal:opendatabutton" target="_blank">
+            project wiki 
+          </a>
+          for more information.
+          <br clear="all">
+          <a href="https://github.com/wfyson/OpenDataButton" target="_blank">
+            <img src="http://opendata.utou.ch/alps/res/github-256-black.png" style="float:left;height:1.2em;margin:0 .5em 0 1.1em"> Source code
+          </a> on GitHub.
+        </div>
+        <div class="col-lg-8">
+          <h2>Latest posts</h2>
+          <ul class="entries">
+          {% for entry in entries %}
+            <li>
+              <a name="{{ entry.id }}"></a>
+              <span class="entry-votes">
+                &#9733; <b>{{ entry.votes }}</b>
+                <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">
+                  Vote!
+                </a>
+                <a class="btn disabled" href="#" title="Coming soon!" data-entry-id="{{ entry.id }}">
+                  Discuss
+                </a></span>
+              <b>{{ entry.title|safe }}</b>
+              <i>{{ entry.time|timesince }}</i>
+              <p><a href="{{ entry.url|safe }}" target="_blank" class="entry-title">
+                {{ entry.url|safe }}</a></p>
+              <p>This data is not open enough for 
+                <span class="entry-{{ entry.reason }}">
+              {{ entry.reason }} reasons</span> in the context of
+                <span class="entry-{{ entry.context }}">
+                  {{ entry.context }}
+                </span> 
+                usage.</p>
+            </li>
+          {% else %}
+            <li><em>Unbelievable.  No entries yet!</em></li>
+          {% endfor %}
+          </ul>
+       </div>
+      </div>
+   
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $('ul.entries li a').click(function(ev) {
+            var self = this;
+            var formdata = {
+                "id": $(this).attr('data-entry-id')
+            };
+            $.post(
+                '{{ url_for('vote') }}', 
+                formdata,
+                function(d) { 
+                  var votes = JSON.parse(d).votes;
+                  var v = $(self).html('Thanks!')
+                    .removeClass('btn-success')
+                    .addClass('btn-success disabled')
+                      .parent().find('.entry-votes b');
+                  v.html(votes);
+                }
+            );
+            ev.preventDefault();
+            return false;
+          });
+      </script>
+  </body>
+</html>
