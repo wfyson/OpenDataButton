@@ -21,6 +21,13 @@ if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
 function initMyBookmarklet() {
     (window.myBookmarklet = function() {
 
+        if (location.href.indexOf(BUTTON_SERVER) >= 0) {
+            window.alert('Click and drag this button up to your bookmark bar, ' +
+                'then use it while you are on the web site whose data ' +
+                'you would like to see become more open.');
+            return;
+        }
+
         var dialog = $('#odb-bkmlt-dialog-form'); 
         if (dialog.length > 0) {
             dialog.fadeIn(); return;
