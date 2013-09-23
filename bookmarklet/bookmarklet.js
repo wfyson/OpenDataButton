@@ -1,7 +1,7 @@
 javascript:(function() {
 
 var v = "1.10.2";
-var BUTTON_SERVER = 'http://localhost:7000' //button.datalets.ch';
+var BUTTON_SERVER = 'http://button.datalets.ch';
 
 if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
     var done = false
@@ -21,7 +21,7 @@ if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
 function initMyBookmarklet() {
     (window.myBookmarklet = function() {
 
-        if (location.href.indexOf(BUTTON_SERVER) >= 0) {
+        if (location.href.indexOf(BUTTON_SERVER) >= 1) {
             window.alert('Click and drag this button up to your bookmark bar, ' +
                 'then use it while you are on the web site whose data ' +
                 'you would like to see become more open.');
@@ -35,11 +35,14 @@ function initMyBookmarklet() {
 
         $("body").append("\
      <link rel=\"stylesheet\" type=\"text/css\" href=\"http://yui.yahooapis.com/3.12.0/build/cssreset-context/cssreset-context-min.css\">\
-     <div id=\"odb-bkmlt-dialog-form\" class=\"yui3-cssreset\" style=\"display:none\">\
+     <div id=\"odb-bkmlt-dialog-form\" class=\"yui3-cssreset\" style=\"display:none;text-align:left\">\
      <h5>Open this data!</h5><br>\
      <form><fieldset>\
      <label for=\"title\">Title</label>\
-        <input type=\"text\" name=\"title\"/><br/>\
+        <input type=\"text\" name=\"title\" style=\"width:70%\"/><br/>\
+     <label for=\"reason\">Reason</label>\
+         <input type=\"checkbox\" checked name=\"reason\" value=\"legal\">Legal</button>\
+         <input type=\"checkbox\" name=\"reason\" value=\"technical\">Technical</button><br/>\
      <label for=\"context\">Context</label>\
      <select name=\"context\">\
          <option value=\"private\">Private</option>\
@@ -47,21 +50,18 @@ function initMyBookmarklet() {
          <option value=\"commercial\">Commercial</option>\
          <option value=\"government\">Government</option>\
      </select><br/>\
-     <label for=\"reason\">Reason</label>\
-         <input type=\"checkbox\" checked name=\"reason\" value=\"legal\">Legal</button>\
-         <input type=\"checkbox\" name=\"reason\" value=\"technical\">Technical</button><br/>\
      <label for=\"lat\">Location</label>\
          lat <input type=\"text\" name=\"lat\" value=\"\" size=\"4\"/>\
          lon <input type=\"text\" name=\"lon\" value=\"\" size=\"4\"/>\
      </fieldset>\
      <label></label><button class=\"submit\">Submit</button>\
      </form>\
-     <button style=\"float:right\" class=\"cancel\">Close</button>\
+     <button style=\"float:right\" class=\"cancel\">Cancel</button>\
      </div>\
      <style type=\"text/css\">\
-     #odb-bkmlt-dialog-form { width:30em; z-index:9999; font-size:16px; position:fixed; top:0px; left:5em; padding:2em; border:1px solid black; box-shadow:5px 5px 10px #888; background: white; }\
+     #odb-bkmlt-dialog-form { width:30em; z-index:9999; font-size:16px; position:fixed; line-height:1.5em; top:0px; left:5em; padding:2em; border:1px solid black; box-shadow:5px 5px 10px #888; background: white; }\
      #odb-bkmlt-dialog-form h5 { font-size:24px; } #odb-bkmlt-dialog-form label { width:6em; display:inline-block; }\
-     #odb-bkmlt-dialog-form button.submit { background: #cfc; margin: 1em 0 0 6em; float: left; }\
+     #odb-bkmlt-dialog-form button.submit { background: #cfc; padding:10px; margin: 1em 0 0 6em; float: left; }\
      </style>\
      ");
         
