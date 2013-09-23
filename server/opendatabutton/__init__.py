@@ -23,11 +23,14 @@ else: # instant
 	cache = SimpleCache()
 	cache_type = "local"
 
-# Home page
-@app.route('/')
-def index():
-	cur = g.db.execute('select id,time,title,url,context,reason,votes from entries order by id desc')
-	entries = [dict(
+# Database query
+def getEntries(entryid=None):
+	if entryid is None:
+		suffix = "from entries order by id desc"
+	else:
+		suffix = "from entries where id=" + entryid
+	cur = g.db.execute("select id,time,title,url,context,reason,votes " + suffix)
+	return [dict(
 			id=row[0],
 			time=row[1],
 			title=row[2], 
@@ -36,7 +39,15 @@ def index():
 			reason=row[5],
 			votes=row[6]
 		) for row in cur.fetchall()]
-	return render_template('index.html', entries=entries)
+
+# Home page
+@app.route('/')
+def index():
+	return render_template('index.html', entries=getEntries())
+
+@app.route('/entry/<id>')
+def entry(id):
+    return render_template('index.html', entries=getEntries(id))
 
 # API test page
 @app.route('/api')

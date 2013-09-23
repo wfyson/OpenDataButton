@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
     <style type="text/css">
-      span.entry-votes { float:right; width:10em; display:inline-block; }
-      .entries li { border-bottom: 1px solid #ccc; }
+      span.entry-votes { float:right; width:auto; display:inline-block; }
+      .entries li { border-bottom: 1px solid #ccc; margin-bottom: 1em; list-style-type: none; }
+      .feed h2 { text-decoration: underline; } .feed ul { padding:0; }
     </style>
   </head>
   <body>
@@ -55,7 +56,7 @@
           <ol>
           <li style="text-decoration:line-through">Make an easy way of sharing data restrictions</li>
           <li>Visualize the “not-so-open-data map”</li>
-          <li>Connect people to next steps: <a href="http://www.isitopendata.org/" target="_blank">Is It Open Data?</a>, <a href="https://github.com/mysociety/alaveteli/wiki/List-of-foi-websites-and-projects" target="_blank">Freedom of Information</a>, etc.</li>
+          <li>Connect people to next steps: <a href="http://www.isitopendata.org/" target="_blank">Is It Open Data?</a>, <a href="https://github.com/mysociety/alaveteli/wiki/List-of-foi-websites-and-projects" target="_blank">Freedom of Information</a> requests, etc.</li>
           </ol>
           <a href="http://make.opendata.ch/wiki/project:legal:opendatabutton" target="_blank">
             <img src="http://opendata.utou.ch/alps/res/opendata_logo2.png" style="float:left;height:1.2em;margin:0 .5em 0 1.1em"> 
@@ -71,20 +72,19 @@
           </a> and <a href="https://github.com/wfyson/OpenDataButton/issues">issues</a> on GitHub.
           <br><br>
         </div>
-        <div class="col-lg-8">
-          <h2>Latest posts</h2>
+        <div class="col-lg-8 feed">
+          <h2>Latest clicks</h2>
           <ul class="entries">
           {% for entry in entries %}
             <li>
-              <a name="{{ entry.id }}"></a>
               <span class="entry-votes">
                 &#9733; <b>{{ entry.votes }}</b>
-                <a class="btn btn-default" href="#" data-entry-id="{{ entry.id }}">
+                <a class="btn btn-default vote" href="#" data-entry-id="{{ entry.id }}">
                   Vote!
-                </a>
-                <a class="btn disabled" href="#" title="Coming soon!" data-entry-id="{{ entry.id }}">
-                  Discuss
+                </a>&nbsp;<a class="btn btn-info discuss" href="https://twitter.com/intent/tweet?button_hashtag=opendata&text=I think data from '{{ entry.title|safe }}' should be more open, do you? {{ url_for('index', _external=True) }}entry/{{ entry.id }}" target="_blank">
+                  Tweet!
                 </a></span>
+              <a name="{{ entry.id }}"></a>
               <b>{{ entry.title|safe }}</b>
               <i>{{ entry.time|timesince }}</i>
               <p><a href="{{ entry.url|safe }}" target="_blank" class="entry-title">
@@ -107,7 +107,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        $('ul.entries li a').click(function(ev) {
+        $('ul.entries li a.vote').click(function(ev) {
             var self = this;
             var formdata = {
                 "id": $(this).attr('data-entry-id')
