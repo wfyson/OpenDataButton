@@ -86,10 +86,11 @@ function initMyBookmarklet() {
                 function(d) { 
                     var data = $.parseJSON(d);
                     $('form', dialog).html(
-                        'Thanks.<br><br>You can now <a href="' 
+                        'Thanks. You can now <a href="' 
                         + BUTTON_SERVER + '/#' + data.id 
-                        + '">see your post</a> here.<!--' 
-                        + d + '-->');
+                        + '">see your post</a> and find out about next steps here: '
+                        + '<a href="' + BUTTON_SERVER + '">' + BUTTON_SERVER + '</a>'
+                        + '<!--' + d + '-->');
                 }
             );
             return false;
