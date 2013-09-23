@@ -40,6 +40,10 @@ def getEntries(entryid=None):
 			votes=row[6]
 		) for row in cur.fetchall()]
 
+def getEntryByUrl(url):
+	cur = g.db.execute("select id where url='" + url + "'")
+	return [dict( id=row[0] ) for row in cur.fetchall()]
+
 # Home page
 @app.route('/')
 def index():
@@ -57,7 +61,7 @@ def api():
 # Bookmarklet
 @app.route('/bookmarklet')
 def bookmarklet():
-    return open(os.path.dirname(__file__) + "/../../bookmarklet/bookmarklet.min.js").read()
+    return open(os.path.dirname(__file__) + "/../../bookmarklet/bookmarklet.js").read()
 
 # Favicon
 @app.route('/favicon.ico')
@@ -68,7 +72,9 @@ def favicon():
 # Vote API
 @app.route('/vote', methods=['POST'])
 def vote():
-    id = request.form['id']
+    return voteFor(request.form['id'])
+
+def voteFor(id):
     #get current number of votes
     cur = g.db.execute('SELECT votes FROM entries WHERE id = ?', id)
     votes = cur.fetchone()[0]
@@ -109,6 +115,11 @@ def submit():
 	if jsondata['title'] and len(jsondata['title']) < 2: jsondata['title'] = None	
 	if not (jsondata['url'] and jsondata['title']):
 		return json.dumps({ 'ErrorCode': 401, 'Message': "Parameters missing" })
+
+	# Vote if URL exists
+	cur = getEntryByUrl(jsondata['url'])
+	if (len(cur) > 0):
+		return json.dumps(cur)
 
 	# Save the submission
 	timestamp = int(time.time())
