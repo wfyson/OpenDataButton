@@ -26,7 +26,7 @@ else: # instant
 # Database query
 def getEntries(entryid=None):
 	if entryid is None:
-		suffix = "from entries order by id desc"
+		suffix = "from entries order by time desc"
 	else:
 		suffix = "from entries where id=" + entryid
 	cur = g.db.execute("select id,time,title,url,context,reason,votes " + suffix)
