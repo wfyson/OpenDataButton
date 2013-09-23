@@ -5,7 +5,7 @@ from flask import Flask, render_template, redirect, send_from_directory, request
 # Define Flask app
 app = Flask(__name__)
 DEBUG = True
-DATABASE = '/tmp/opendatabutton.db'
+DATABASE = './opendatabutton.db'
 SERVER_PORT = 7000
 
 # Cache configuration
