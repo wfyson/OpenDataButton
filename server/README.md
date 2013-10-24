@@ -31,3 +31,6 @@ Written in the Flask microframework for Python.
 
 7. Open the home page http://localhost:7000
 
+## Advanced
+
+Use button.conf with supervisor for the gunicorn-managed process.
